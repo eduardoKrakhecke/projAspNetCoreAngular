@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { registerLocaleData } from "@angular/common";
 import { NavComponent } from './components/nav/nav.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
+import { ModalModule } from "ngx-bootstrap/modal";
 
 
 registerLocaleData(localePt)
@@ -22,7 +24,8 @@ registerLocaleData(localePt)
     AppComponent,
     EventosComponent,
     PalestrantesComponent,
-    NavComponent
+    NavComponent,
+    ModalConfirmComponent
   ],
   imports: [
     RouterModule,
@@ -31,7 +34,8 @@ registerLocaleData(localePt)
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [{
     provide: LOCALE_ID,

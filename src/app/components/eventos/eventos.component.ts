@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { EventosService } from "../../services/eventos/eventos.service";
 import { Evento } from "../../models/evento.model";
 
-
 @Component({
   selector: 'app-eventos',
   templateUrl: './eventos.component.html',
@@ -14,7 +13,9 @@ export class EventosComponent implements OnInit {
     this.getEventos()
   }
 
-  constructor(private eventoService: EventosService) {
+  constructor(
+    private eventoService: EventosService,
+  ) {
   }
 
 
@@ -43,11 +44,15 @@ export class EventosComponent implements OnInit {
     )
   }
 
-  public getEventos(): void {
+    getEventos(): void {
     this.eventoService.get().subscribe(eventos => {
       this.eventos = eventos
       this.eventosFiltrados = eventos
     })
+  }
+
+  deleteEventos() {
+
   }
   imageShow() {
     this.showImage = !this.showImage
