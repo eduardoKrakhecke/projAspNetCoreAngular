@@ -6,23 +6,30 @@ import { Evento } from "../../models/evento.model";
 import { endpoints } from "../../constants/endpoints";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  //{providedIn: 'root'}
+)
 export class EventosService {
 
   constructor(
     private http: HttpClient
   ) { }
 
-  get(): Observable<Evento[]> {
+  getEventos(): Observable<Evento[]> {
     return this.http.get<Evento[]>(endpoints.eventos).pipe(
       map((obj) => obj),
       catchError( e => this.errorHandler(e))
     )
   }
 
-  getById(id: any): Observable<Evento> {
+  getEventosByTema(tema: string): Observable<Evento[]> {
+    return this.http.get<Evento[]>(`${endpoints.eventos}/${tema}/tema`).pipe(
+      map((obj) => obj),
+      catchError( e => this.errorHandler(e))
+    )
+  }
+
+  getEventoById(id: any): Observable<Evento> {
     const url = `${endpoints.eventos}/${id}`
     return this.http.get<Evento>(url).pipe(
       map((obj) => obj),
@@ -31,7 +38,7 @@ export class EventosService {
   }
 
   update(evento: Evento): Observable<Evento> {
-    const url = `${endpoints.eventos}/${evento.eventoId}`
+    const url = `${endpoints.eventos}/${evento.id}`
     return this.http.put<Evento>(url, evento).pipe(
       map((obj) => obj),
       catchError( e => this.errorHandler(e))

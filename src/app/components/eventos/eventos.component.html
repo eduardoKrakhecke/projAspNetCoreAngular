@@ -1,5 +1,4 @@
-<h1>Evento</h1>
-<hr>
+<app-title text="Eventos"></app-title>
 
 <div class="form-inline">
   <div class="form-group mb-2">
@@ -12,14 +11,18 @@
   <thead class="thead-dark">
   <tr>
     <th>
-      <button type="button" (click)="imageShow()" class="btn btn-outline-light btn-sm">{{showImage ? 'Exibir' : 'Ocultar'}}</button>
+      <button type="button" (click)="imageShow()" class="btn btn-outline-light btn-sm">
+        <i class="{{showImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}">
+        </i>
+        {{showImage ? 'Exibir' : 'Ocultar'}}
+      </button>
     </th>
     <th>#</th>
     <th>Tema</th>
     <th>Local</th>
     <th>Data</th>
     <th>Qtd Pessoas</th>
-    <th>Lote</th>
+    <!--<th>Lote</th>-->
     <th>Opções</th>
   </tr>
   </thead>
@@ -31,15 +34,19 @@
            [style.magin.px]="imageMargin"
       >
     </td>
-    <td>{{evento.eventoId}}</td>
+    <td>{{evento.id}}</td>
     <td>{{evento.tema}}</td>
     <td>{{evento.local}}</td>
-    <td>{{evento.dataEvento}}</td>
+    <td>{{evento.dataEvento | dateTimeFormat}}</td>
     <td>{{evento.qtdPessoas}}</td>
-    <td>{{evento.lote}}</td>
+   <!-- <td>{{evento.lotes.nome}}</td>-->
     <td>
-      <button type="button" class="btn btn-primary btn-sm mr-1">Editar</button>
-      <button (click)="deleteEventos()" type="button" class="btn btn-danger btn-sm">Exluir</button>
+      <button type="button" class="btn btn-primary btn-sm mr-1" tooltip="Editar">
+        <i class="fa fa-edit"></i>
+      </button>
+      <button (click)="openModal(template)" type="button" class="btn btn-danger btn-sm" tooltip="Excluir">
+        <i class="fa fa-trash"></i>
+      </button>
     </td>
   </tr>
   </tbody>
@@ -51,4 +58,12 @@
   </tr>
   </tfoot>
 </table>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja excluir?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
+  </div>
+</ng-template>
 

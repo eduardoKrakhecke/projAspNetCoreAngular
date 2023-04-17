@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { EventosService } from "../../services/eventos/eventos.service";
 import { Evento } from "../../models/evento.model";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-eventos',
@@ -10,15 +11,16 @@ import { Evento } from "../../models/evento.model";
 export class EventosComponent implements OnInit {
 
   ngOnInit(): void {
-    this.getEventos()
+    this.getEventos();
   }
 
   constructor(
     private eventoService: EventosService,
+    private modalService: BsModalService
   ) {
   }
 
-
+  modalRef?: BsModalRef;
   public eventos: Evento[] = []
   public eventosFiltrados: Evento[] = []
 
@@ -36,7 +38,7 @@ export class EventosComponent implements OnInit {
     this.eventosFiltrados = this.listFilter ? this.filterEvents(this.listFilter) : this.eventos
   }
 
-  filterEvents(filterBy: string): any {
+  filterEvents(filterBy: string): Evento[] {
     filterBy = filterBy.toLowerCase()
     return this.eventos.filter(
       (evento) => evento.tema.toLowerCase().indexOf(filterBy) !== -1 ||
@@ -45,7 +47,7 @@ export class EventosComponent implements OnInit {
   }
 
     getEventos(): void {
-    this.eventoService.get().subscribe(eventos => {
+    this.eventoService.getEventos().subscribe(eventos => {
       this.eventos = eventos
       this.eventosFiltrados = eventos
     })
@@ -54,8 +56,20 @@ export class EventosComponent implements OnInit {
   deleteEventos() {
 
   }
-  imageShow() {
+  imageShow(): void {
     this.showImage = !this.showImage
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  confirm(): void {
+    this.modalRef?.hide();
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
   }
 
 
