@@ -23,7 +23,13 @@ import { DateTimeFormatPipe } from './utils/date-time-format.pipe';
 import { TitleComponent } from './components/shared/title/title.component';
 import { ContatosComponent } from './components/contatos/contatos.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { PerfilComponent } from './components/user/perfil/perfil.component';
+import { ToastComponent } from './components/shared/toast/toast.component';
+import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
+import { EventoListagemComponent } from './components/eventos/evento-listagem/evento-listagem.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegistrationComponent } from './components/user/registration/registration.component';
 
 
 registerLocaleData(localePt)
@@ -39,7 +45,13 @@ registerLocaleData(localePt)
     TitleComponent,
     ContatosComponent,
     DashboardComponent,
-    PerfilComponent
+    PerfilComponent,
+    ToastComponent,
+    EventoDetalheComponent,
+    EventoListagemComponent,
+    UserComponent,
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     RouterModule,
@@ -51,7 +63,7 @@ registerLocaleData(localePt)
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
   ],
   providers: [
     EventosService,

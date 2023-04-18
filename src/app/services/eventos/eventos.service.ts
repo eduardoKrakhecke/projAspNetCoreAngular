@@ -4,6 +4,7 @@ import { catchError, map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { Evento } from "../../models/evento.model";
 import { endpoints } from "../../constants/endpoints";
+import { messages } from "../../constants/messages"
 
 
 @Injectable(
@@ -61,7 +62,7 @@ export class EventosService {
   }
 
   errorHandler(e: any): Observable<any> {
-    console.log('Ocorreu um erro', e)
+    console.log(messages.ERRO_GENERICO, e)
     return EMPTY
   }
 
