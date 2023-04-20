@@ -1,7 +1,7 @@
 import {NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import localePt from '@angular/common/locales/pt'
 
 import {AppComponent} from './app.component';
@@ -16,9 +16,9 @@ import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
-import {ModalConfirmComponent} from './components/shared/modal-confirm/modal-confirm.component';
-import {ModalModule} from "ngx-bootstrap/modal";
-import {EventosService} from "./services/eventos/eventos.service";
+import { ModalConfirmComponent } from './components/shared/modal-confirm/modal-confirm.component';
+import { ModalModule } from "ngx-bootstrap/modal";
+import { EventosService } from "./services/eventos/eventos.service";
 import { DateTimeFormatPipe } from './utils/date-time-format.pipe';
 import { TitleComponent } from './components/shared/title/title.component';
 import { ContatosComponent } from './components/contatos/contatos.component';
@@ -60,6 +60,7 @@ registerLocaleData(localePt)
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),

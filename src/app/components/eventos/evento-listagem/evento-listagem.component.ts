@@ -1,9 +1,9 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {EventosService} from "../../../services/eventos/eventos.service";
+import {EventosService} from "@app/services/eventos/eventos.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {ToastService} from "../../shared/toast/toast.service";
-import {Evento} from "../../../models/evento.model";
-import {messages} from "../../../constants/messages";
+import {ToastService} from "@app/components/shared/toast/toast.service";
+import {Evento} from "@app/models/evento.model";
+import {messages} from "@app/constants/messages";
 import {Router} from "@angular/router";
 
 @Component({
