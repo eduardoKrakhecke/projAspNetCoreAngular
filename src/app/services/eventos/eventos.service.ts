@@ -38,7 +38,7 @@ export class EventosService {
     )
   }
 
-  update(evento: Evento): Observable<Evento> {
+  put(evento: Evento): Observable<Evento> {
     const url = `${endpoints.eventos}/${evento.id}`
     return this.http.put<Evento>(url, evento).pipe(
       map((obj) => obj),
@@ -46,16 +46,16 @@ export class EventosService {
     )
   }
 
-  save(evento: Evento): Observable<Evento> {
+  post(evento: Evento): Observable<Evento> {
     return this.http.post<Evento>(endpoints.eventos, evento).pipe(
       map((obj) => obj),
       catchError( e => this.errorHandler(e))
     )
   }
 
-  delete(id: any): Observable<Evento> {
+  delete(id: any): Observable<any> {
     const url = `${endpoints.eventos}/${id}`
-    return this.http.delete<Evento>(url).pipe(
+    return this.http.delete<string>(url).pipe(
       map((obj) => obj),
       catchError( e => this.errorHandler(e))
     )

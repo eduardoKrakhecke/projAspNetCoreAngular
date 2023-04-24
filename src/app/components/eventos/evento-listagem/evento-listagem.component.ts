@@ -29,6 +29,7 @@ export class EventoListagemComponent implements OnInit {
   modalRef?: BsModalRef;
   public eventos: Evento[] = []
   public eventosFiltrados: Evento[] = []
+  eventoId: number
 
   imageMargin: number = 2
   imageWidth: number = 150
@@ -66,12 +67,27 @@ export class EventoListagemComponent implements OnInit {
     this.showImage = !this.showImage
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(event: any, template: TemplateRef<any>, eventoId: any) {
+    event.stopPropagation()
+    this.eventoId = eventoId
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(): void {
+    //this.spinner.show()
     this.modalRef?.hide();
+    this.eventoService.delete(this.eventoId).subscribe(
+      (result)=> {
+        if( result.message === 'Deletado') {
+          this.getEventos()
+          alert("Evento deletado")
+        }
+      },
+      (error)=> {
+        console.log('Ocorreu um erro')
+      },
+      ()=> {}
+    )//.add(()=> this.spinner.hide())
     this.toastService.show(messages.SUCESSO_EXCLUIR, 'success')
   }
 
