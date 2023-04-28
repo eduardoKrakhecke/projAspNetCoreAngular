@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Validator } from '@app/utils/validator'
+import {AccountService} from "@app/services/account/account.service";
+import {User} from "@app/models/identity/user";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -9,9 +12,14 @@ import { Validator } from '@app/utils/validator'
 })
 export class RegistrationComponent implements OnInit {
 
+  user = {} as User
   form: FormGroup
 
-  constructor(public fb: FormBuilder) {
+  constructor(
+    public fb: FormBuilder,
+    private accountService: AccountService,
+    private router: Router
+  ) {
   }
 
   get f(): any {
@@ -25,7 +33,7 @@ export class RegistrationComponent implements OnInit {
   validation(): void {
 
     const formOptions: AbstractControlOptions = {
-      validators: Validator.MustMatch('senha', 'confirmarSenha')
+      validators: Validator.MustMatch('password', 'confirmarPassword')
     };
 
     this.form = this.fb.group({
@@ -35,11 +43,20 @@ export class RegistrationComponent implements OnInit {
         [Validators.required, Validators.email]
       ],
       userName: ['', Validators.required],
-      senha: ['',
-        [Validators.required, Validators.minLength(6)]
+      password: ['',
+        [Validators.required, Validators.minLength(4)]
       ],
-      confirmarSenha: ['', Validators.required],
+      confirmarPassword: ['', Validators.required],
     }, formOptions);
+  }
+
+  createUser(): void {
+    this.user = {... this.form.value}
+    this.accountService.register(this.user).subscribe(
+      ()=> { this.router.navigateByUrl('/dashboard')},
+      (error)=> { console.log(error)},
+      ()=> {}
+    )
   }
 
 }

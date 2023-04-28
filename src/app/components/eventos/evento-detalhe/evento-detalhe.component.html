@@ -113,7 +113,9 @@
         <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i=index">
           <fieldset [formGroupName]="i" class="form-group">
             <legend class="d-flex justify-content-between capitalize">
+              {{retornaTituloLote(lotes.get(i+'.nome')?.value)}}
               <button class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
+                      (click)="removerLote(template,i)"
                       tooltip="Excluir Lote"
                       [adaptivePosition]="false"
                       [delay]="500"
@@ -138,18 +140,25 @@
               <div class="form-group col-md-4">
                 <label>Preço</label>
                 <input
+                  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
                   [ngClass]="{'is-invalid' : lotes.get(i+'.preco')?.errors && lotes.get(i+'.preco')?.touched}"
                   type="text" currencyMask class="form-control" formControlName="preco" placeholder="R$ 0,00">
               </div>
               <div class="form-group col-md-4">
                 <label>Data Início</label>
                 <input
-                  type="text" class="form-control" formControlName="dataInicio" placeholder="01/01/2019">
+                  value="{{lotes.get(i+'.dataInicio')?.value | date: 'dd/MM/yyyy'}}"
+                  bsDatepicker
+                  (bsValueChange)="mudarValorData($event, i, 'dataInicio')"
+                  type="text" class="form-control">
               </div>
               <div class="form-group col-md-4">
                 <label>Data Fim</label>
                 <input
-                  type="text" class="form-control" formControlName="dataFim" placeholder="01/01/2019">
+                  value="{{lotes.get(i+'.dataFim')?.value | date: 'dd/MM/yyyy'}}"
+                  bsDatepicker
+                  (bsValueChange)="mudarValorData($event, i, 'dataFim')"
+                  type="text" class="form-control">
               </div>
             </div>
           </fieldset>
@@ -173,6 +182,14 @@
   </div>
 </div>
 <br>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja excluir o lote {{this.loteAtual.nome}}?</p>
+    <button type="button" class="btn btn-default" (click)="confirmDeleteLote()" >Sim</button>
+    <button type="button" class="btn btn-primary" (click)="declineDeleteLote()" >Não</button>
+  </div>
+</ng-template>
 
 
 

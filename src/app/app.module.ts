@@ -16,6 +16,7 @@ import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { NgxCurrencyModule } from "ngx-currency";
 
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
@@ -71,7 +72,8 @@ registerLocaleData(localePt)
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    NgxCurrencyModule
   ],
   providers: [
     EventosService,

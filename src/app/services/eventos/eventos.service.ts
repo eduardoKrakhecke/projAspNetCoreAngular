@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, EMPTY } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Evento } from "../../models/evento.model";
 import { endpoints } from "../../constants/endpoints";
 import { messages } from "../../constants/messages"
@@ -12,12 +12,17 @@ import { messages } from "../../constants/messages"
 )
 export class EventosService {
 
+  tokenHeader = new HttpHeaders( {
+
+    'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+  })
+
   constructor(
     private http: HttpClient
   ) { }
 
   getEventos(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(endpoints.eventos).pipe(
+    return this.http.get<Evento[]>(endpoints.eventos, { headers: this.tokenHeader}).pipe(
       map((obj) => obj),
       catchError( e => this.errorHandler(e))
     )
