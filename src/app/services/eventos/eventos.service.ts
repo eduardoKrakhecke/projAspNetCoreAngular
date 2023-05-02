@@ -12,17 +12,12 @@ import { messages } from "../../constants/messages"
 )
 export class EventosService {
 
-  tokenHeader = new HttpHeaders( {
-
-    'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
-  })
-
   constructor(
     private http: HttpClient
   ) { }
 
   getEventos(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(endpoints.eventos, { headers: this.tokenHeader}).pipe(
+    return this.http.get<Evento[]>(endpoints.eventos).pipe(
       map((obj) => obj),
       catchError( e => this.errorHandler(e))
     )

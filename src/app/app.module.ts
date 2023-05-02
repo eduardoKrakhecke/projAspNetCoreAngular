@@ -8,7 +8,7 @@ import {AppComponent} from './app.component';
 import {EventosComponent} from './components/eventos/eventos.component';
 import {PalestrantesComponent} from './components/palestrantes/palestrantes.component';
 import {AppRoutingModule} from './app-routing.module';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {registerLocaleData} from "@angular/common";
 import {NavComponent} from './components/shared/nav/nav.component';
@@ -37,6 +37,8 @@ import { EventoListagemComponent } from './components/eventos/evento-listagem/ev
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import {JwtInterceptor} from "@app/interceptor/jwt.interceptor";
+import { HomeComponent } from './components/home/home/home.component';
 
 
 registerLocaleData(localePt)
@@ -58,7 +60,8 @@ registerLocaleData(localePt)
     EventoListagemComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    HomeComponent
   ],
   imports: [
     RouterModule,
@@ -80,6 +83,11 @@ registerLocaleData(localePt)
     {
       provide: LOCALE_ID,
       useValue: 'pt-BR',
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent],
