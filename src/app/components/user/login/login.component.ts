@@ -9,32 +9,26 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  model = {} as UserLogin
+  model = {} as UserLogin;
 
   constructor(
     private accountService: AccountService,
     private router: Router,
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  login(): void {
+  public login(): void {
     this.accountService.login(this.model).subscribe(
       () => {
-        this.router.navigateByUrl('/dashboard')
+        this.router.navigateByUrl('/dashboard');
       },
       (error: any) => {
-        if(error.status === 401) {
-          alert("Não autorizado")
-        } else {
-          console.log(error)
-        }
-      },
-      () => {}
-    )
+        if (error.status == 401)
+          alert('usuário ou senha inválido')
+        else console.error(error);
+      }
+    );
   }
 
 }

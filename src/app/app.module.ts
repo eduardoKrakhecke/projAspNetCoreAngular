@@ -18,6 +18,8 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { NgxCurrencyModule } from "ngx-currency";
 
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 defineLocale('pt-br', ptBrLocale);
@@ -76,6 +78,7 @@ registerLocaleData(localePt)
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
     NgxCurrencyModule
   ],
   providers: [

@@ -11,61 +11,60 @@ import {UserUpdate} from "@app/models/identity/user-update";
   providedIn: 'root'
 })
 export class AccountService {
+  private currentUserSource = new ReplaySubject<User>(1);
+  public currentUser$ = this.currentUserSource.asObservable();
 
-  private  currentUserSource = new ReplaySubject<User>(1)
-  public currentUser$ = this.currentUserSource.asObservable()
-
-
-  public setCurrentUser(user: User): void {
-    localStorage.setItem(Key.USERKEY, JSON.stringify(user.token))
-    this.currentUserSource.next(user)
-  }
-
+  baseUrl = 'https://localhost:5001/api/account/'
   constructor(private http: HttpClient) { }
 
-  login(model: any): Observable<void> {
-    return this. http.post<User>(endpoints.login, model).pipe(
+  public login(model: any): Observable<void> {
+    return this.http.post<User>(this.baseUrl + 'login', model).pipe(
+      take(1),
       map((response: User) => {
-        const user  = response
-        if(user) {
+        const user = response;
+        if (user) {
           this.setCurrentUser(user)
         }
       })
-    )
-  }
-
-  logout(): void {
-    localStorage.removeItem(Key.USERKEY)
-    this.currentUserSource.next(null!)
-    this.currentUserSource.complete()
+    );
   }
 
   getUser(): Observable<UserUpdate> {
-    return this.http.get<UserUpdate>(endpoints.user).pipe(take(1))
+    return this.http.get<UserUpdate>(this.baseUrl + 'getUser').pipe(take(1));
   }
 
   updateUser(model: UserUpdate): Observable<void> {
-   return this.http.put<UserUpdate>(endpoints.updateUser, model).pipe(
-     take(1),
-     map(
-       (user)=>{
-         this.setCurrentUser(user)
-       }
-     )
-   )
+    return this.http.put<UserUpdate>(this.baseUrl + 'updateUser', model).pipe(
+      take(1),
+      map((user: UserUpdate) => {
+          this.setCurrentUser(user);
+        }
+      )
+    )
   }
 
-
-  register(user: User): Observable<void> {
-    return this. http.post<User>(endpoints.register, user).pipe(
+  public register(model: any): Observable<void> {
+    return this.http.post<User>(this.baseUrl + 'register', model).pipe(
       take(1),
       map((response: User) => {
-        const user  = response
-        if(user) {
+        const user = response;
+        if (user) {
           this.setCurrentUser(user)
         }
       })
-    )
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+    // @ts-ignore
+    this.currentUserSource.next(null);
+    this.currentUserSource.complete();
+  }
+
+  public setCurrentUser(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSource.next(user);
   }
 
 }

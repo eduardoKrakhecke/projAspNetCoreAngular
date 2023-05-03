@@ -10,24 +10,21 @@ import {Key} from "@app/constants/key-token";
 })
 export class AppComponent {
 
-  constructor(public accountService: AccountService) {
-  }
+  constructor(public accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.setCurrentUser()
+    this.setCurrentUser();
   }
 
-  title = 'Evento';
-
   setCurrentUser(): void {
-    let user: any;
-    if(localStorage.getItem(Key.USERKEY)) {
-      user = JSON.parse(localStorage.getItem(Key.USERKEY) ?? '{}')
-    } else {
+    let user: User | null;
+
+    if (localStorage.getItem('user'))
+      user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    else
       user = null
-    }
-    if(user) {
-      this.accountService.setCurrentUser(user)
-    }
+
+    if (user)
+      this.accountService.setCurrentUser(user);
   }
 }

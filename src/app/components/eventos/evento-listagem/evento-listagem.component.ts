@@ -5,6 +5,8 @@ import {ToastService} from "@app/components/shared/toast/toast.service";
 import {Evento} from "@app/models/evento.model";
 import {messages} from "@app/constants/messages";
 import {Router} from "@angular/router";
+import {Pagination, PaginatedResult} from "@app/models/pagination";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-evento-listagem',
@@ -15,6 +17,7 @@ export class EventoListagemComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.pagination = { currentPage: 1, itemsPerPage: 3, totalItems: 1 } as Pagination
     this.getEventos();
   }
 
@@ -25,6 +28,8 @@ export class EventoListagemComponent implements OnInit {
     private route: Router
   ) {
   }
+
+  public pagination = {} as Pagination
 
   modalRef?: BsModalRef;
   public eventos: Evento[] = []
@@ -54,10 +59,16 @@ export class EventoListagemComponent implements OnInit {
   }
 
   getEventos(): void {
-    this.eventoService.getEventos().subscribe(eventos => {
-      this.eventos = eventos
-      this.eventosFiltrados = eventos
-    })
+    this.eventoService.getEventos(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe(
+       (response: PaginatedResult<Evento[]>) => {
+         this.eventos = response.result
+         this.eventosFiltrados = this.eventos
+         this.pagination = response.pagination
+      },
+      error => {
+         console.log(error)
+      }
+  )
   }
 
   deleteEventos() {
@@ -97,6 +108,11 @@ export class EventoListagemComponent implements OnInit {
 
   detalheEvento(id: number | undefined): void {
     this.route.navigate([`eventos/detalhe/${id}`]);
+  }
+
+  pageChanged(event: any): void {
+   this.pagination.currentPage = event.page
+    this.getEventos()
   }
 
 }

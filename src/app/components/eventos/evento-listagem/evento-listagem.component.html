@@ -70,6 +70,19 @@
     </tr>
     </tfoot>
   </table>
+  <div class="d-flex justify-content-center">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="pagination.totalItems"
+      [(ngModel)]="pagination.currentPage"
+      (pageChanged)="pageChanged($event)"
+      pageBtnClass="btn"
+      [itemsPerPage]="pagination.itemsPerPage"
+      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+    </pagination>
+  </div>
+
+
 </div>
 
 <ng-template #template>
